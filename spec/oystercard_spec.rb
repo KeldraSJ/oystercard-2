@@ -28,6 +28,13 @@ describe Oystercard do
     end
   end
 
+  it "deducts fare from oystercard" do
+    min_fare = Oystercard::MIN_BALANCE
+    oystercard.top_up(30)
+    oystercard.touch_in
+    expect { oystercard.touch_out }.to change { oystercard.balance }.by(-Oystercard::MIN_BALANCE)
+  end
+
   describe '#in_journey' do
     it 'journey is not taking place' do
       expect(oystercard).not_to be_in_journey 
@@ -50,6 +57,6 @@ describe Oystercard do
       oystercard.touch_in
       oystercard.touch_out
       expect(oystercard).not_to be_in_journey
-    end 
+    end
   end 
 end        
